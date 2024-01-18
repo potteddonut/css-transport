@@ -1,17 +1,20 @@
-# Interactive covid data page
+# Interactive Transport (Bus)
 
 -   [ ] Which APIs are we using to fetch information
 -   [ ] Which libraries are we using for data parsing/displaying
-
 -   [ ] Navigation bar
 
-**Azfar**: Live data displayed with charts and graphs on Covid infections
 
-**Ilham**: Interactive heatmap of Covid infections
+**Azfar**: Page to view bus arrival information
+- What kind of information? Which part of SG specifically?
+- Can be creative and come up with something unique rather than the usual one
 
-**Zach**: Interactive chart and graph of Covid infections within Singapore, with time based
-filters
+**Ilham**: Interactive map of realtime traffic across the island
+- Only interactive map?
 
--   Closer view for each part of SG (N/S/E/W)
+**Zach**: Realtime Singapore-Malaysia causeway traffic situation through pictures
+- Only pictures?
 
-**Lucas**: Static page on what covid is and what are the prevalent strains over time
+
+**Lucas**: Interactive map to find parking spaces
+- Which parking spaces are we talking specifically?
