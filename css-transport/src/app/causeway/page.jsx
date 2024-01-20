@@ -2,24 +2,49 @@
 import React, { useState, useEffect } from "react";
 
 export default function Causeway() {
-    const [data, setData] = useState([]);
+    // CAMERA NUMBERS 4703, 4713, 2701, 2702
+    const api = "https://api.data.gov.sg/v1/transport/traffic-images"
+    const cameraIDs = ["4703", "4713", "2701", "2702"];
 
-    // fetch url https://api.data.gov.sg/v1/transport/traffic-images
-    // FIXME broken
-    useEffect(() => {
-        fetch("https://api.data.gov.sg/v1/transport/traffic-images")
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            setData(data);
+    const [lastUpdated, setLastUpdated] = useState(null);
+    let causewayCameras = [];
+
+    const ImageComponent = ({data}) => {
+        data.map((item) => {
+            <img
+                className="image"
+                src={item}
+                alt={item}
+            />
         })
-        .catch((error) => {
-            console.log(error);
-        });
-    }, []);
+    }
+
+    const fetchImage = () => {
+        fetch(api)
+            .then((r) => r.json())
+            .then((data) => {
+                const lastUpdated = new Date(data.items[0].timestamp);
+                setLastUpdated(`${lastUpdated}`);
+
+                // arr of objs
+                let cameraData = data.items[0].cameras;
+
+                for (let i=0; i<cameraData.length; i++) {
+                    if (cameraIDs.includes(cameraData[i].camera_id)) {
+                        causewayCameras.push(cameraData[i].image);
+                    }
+                }
+            })
+    }
+
+    fetchImage();
+    console.log(causewayCameras);
 
     return (
         <>
+            {fetchImage()}
+            <h3>Feed last updated: </h3>
+            <p>{lastUpdated}</p>
         </>
-    )
+    );
 }
