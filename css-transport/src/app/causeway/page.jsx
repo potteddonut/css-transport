@@ -9,42 +9,53 @@ export default function Causeway() {
     const [lastUpdated, setLastUpdated] = useState(null);
     let causewayCameras = [];
 
-    const ImageComponent = ({data}) => {
-        data.map((item) => {
-            <img
-                className="image"
-                src={item}
-                alt={item}
-            />
+    /**
+     * @param {string} api 
+     */
+    const updateData = (api) => {
+        causewayCameras = [];
+
+        fetch(api)
+        .then((r) => r.json())
+        .then((data) => {
+            const lastUpdated = new Date(data.items[0].timestamp);
+            setLastUpdated(`${lastUpdated}`);
+
+            // arr of objs
+            let cameraData = data.items[0].cameras;
+
+            for (let i=0; i<cameraData.length; i++) {
+                if (cameraIDs.includes(cameraData[i].camera_id)) {
+                    causewayCameras.push(cameraData[i].image);
+                }
+            }
         })
     }
 
-    const fetchImage = () => {
-        fetch(api)
-            .then((r) => r.json())
-            .then((data) => {
-                const lastUpdated = new Date(data.items[0].timestamp);
-                setLastUpdated(`${lastUpdated}`);
+    updateData(api);        // initial API call
+    useEffect(() => {       // auto-refresh every minute
+        const refresh = setInterval(() => {
+            updateData(api);
+            console.log("Data refreshed");
+        }, 60000);
+        return () => clearInterval(refresh);
+    });
 
-                // arr of objs
-                let cameraData = data.items[0].cameras;
-
-                for (let i=0; i<cameraData.length; i++) {
-                    if (cameraIDs.includes(cameraData[i].camera_id)) {
-                        causewayCameras.push(cameraData[i].image);
-                    }
-                }
-            })
-    }
-
-    fetchImage();
     console.log(causewayCameras);
+    // let cam1 = causewayCameras[0];
+    // let cam2 = causewayCameras[1];
+    // let cam3 = causewayCameras[2];
+    // let cam4 = causewayCameras[3];
 
     return (
         <>
-            {fetchImage()}
-            <h3>Feed last updated: </h3>
-            <p>{lastUpdated}</p>
+            <div id="header">
+                <h3>Feed last updated: </h3>
+                <p>{lastUpdated}</p>
+            </div>
+            {/* <div id="images">
+                <img src={cam1} />
+            </div> */}
         </>
     );
 }
