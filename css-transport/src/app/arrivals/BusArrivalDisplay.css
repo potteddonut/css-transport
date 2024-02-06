@@ -34,3 +34,27 @@
     padding: 5px 0;
     border-bottom: 1px solid #eee;
 }
+.container {
+
+    display: flex;
+    flex-direction: column;
+}
+
+.content, .buttons {
+    flex: 1;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-top: 10px; /* Add some space above the buttons */
+}
+
+.refreshButton, .toggleFormatButton {
+    margin-left: 10px; /* Space between buttons */
+}
+
+.additionalInfo {
+    margin-left: 10px;
+    font-style: italic;
+}
