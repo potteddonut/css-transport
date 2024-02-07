@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWheelchair, faChair, faBusSimple } from '@fortawesome/free-solid-svg-icons';
 import './BusArrivalDisplay.css';
 
-
+// Component responsible for displaying bus arrival information 
 const BusService = ({ service }) => {
+    // Function to format arrival time in minutes or "Arriving"
     const formatMinutes = (isoString) => {
         if (!isoString) return 'N/A';
         const arrivalTime = new Date(isoString);
@@ -14,7 +15,7 @@ const BusService = ({ service }) => {
         const differenceInMinutes = Math.round(differenceInMilliseconds / 60000);
         return differenceInMinutes > 0 ? `${differenceInMinutes} ` : 'Arriving';
     };
-
+    // Function to get appropiate icon for bus type
     const getBusTypeIcon = (type) => {
         switch (type) {
             case 'SD':
@@ -37,7 +38,7 @@ const BusService = ({ service }) => {
                 return null;
         }
     };
-
+    // Function to get appropiate icon for bus load
     const getBusLoadIcon = (load) => {
         const iconStyles = {
             'SEA': 'load-seats-available',
@@ -53,7 +54,7 @@ const BusService = ({ service }) => {
     
         return <FontAwesomeIcon icon={faChair} className={`attribute load ${iconClass}`} title={titleText} />;
     };
-
+    // Function to render bus attributes 
     const renderBusAttributes = (bus) => {
         const wheelchairIcon = bus.Feature === 'WAB' ? <FontAwesomeIcon icon={faWheelchair} title="Wheelchair Accessible" /> : null;
         const busTypeIcon = getBusTypeIcon(bus.Type);
@@ -67,7 +68,7 @@ const BusService = ({ service }) => {
             </div>
         );
     };
-
+    // Render bus service information
     return (
         <div className="serviceContainer">
             <h3 className="serviceHeader">Service No: {service.ServiceNo}</h3>
@@ -88,11 +89,11 @@ const BusService = ({ service }) => {
         </div>
     );
 };
-
+// This displays the bus arrival information for a specific bus stop (in this case Ngee Ann Poly)
 const BusArrivalDisplay = () => {
     const [arrivalData, setArrivalData] = useState({ Services: [], BusStopCode: '', BusStopName: 'Ngee Ann Poly, Clementi Rd' });
     const [searchTerm, setSearchTerm] = useState('');
-
+    // Fetch bus arrival data from API
     const fetchBusArrivalData = async () => {
         const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
         const targetUrl = 'http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=12101';
@@ -116,19 +117,19 @@ const BusArrivalDisplay = () => {
             console.error('Error fetching bus arrival data:', error);
         }
     };
-
+    // Handle search input change
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
-
+    // Filter the search based on the user input
     const filteredServices = arrivalData.Services.filter((service) => {
         return service.ServiceNo.includes(searchTerm);
     });
-
+    // Fetches the arrival data
     useEffect(() => {
         fetchBusArrivalData();
     }, []);
-
+    // Render BusArrivalDisplay component (.css)
     return (
         <div className="container">
             <div className="header">
