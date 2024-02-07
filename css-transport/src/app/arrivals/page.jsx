@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWheelchair, faChair, faBusSimple } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faWheelchair, faChair, faBusSimple } from '@fortawesome/free-solid-svg-icons';
 import './BusArrivalDisplay.css';
 
 // Component responsible for displaying bus arrival information 

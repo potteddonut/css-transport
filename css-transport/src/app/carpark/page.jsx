@@ -20,8 +20,8 @@ function App() {
 
     // Load car park locations from the CSV file in the public folder
     const fetchCarParkLocations = () => {
-      Papa.parse('/carpark.csv', { // Adjusted to the correct path in the public folder
-        download: true,
+      Papa.parse('../carpark/carpark.csv', { // Adjusted to the correct path in the public folder
+        download: false,
         header: true,
         complete: (result) => {
           setLocations(result.data);
@@ -47,9 +47,11 @@ function App() {
         const totalLots = carPark.carpark_info[0].total_lots;
 
         // Convert coordinates (Assuming they need conversion to latitude and longitude)
+        const lat = calculateLongitude(location.y_coord);
+        const lng = calculateLatitude(location.x_coord);
         // This example assumes the coordinates are directly usable as lat and long
         return (
-          <Marker key={index} position={[location.y_coord, location.x_coord]}>
+          <Marker key={index} position={[lat, lng]}>
             <Popup>
               {location.address}<br />
               Available: {availableLots}/{totalLots}
@@ -60,5 +62,25 @@ function App() {
     </MapContainer>
   );
 }
+
+const calculateLongitude = (yCoord) => {
+  const avgYCoord = 37891.022733513346
+  const maxYCoord = 48691.4308
+  const minYCoord = 28123.4116
+  const scale = 0.18
+  const offsetY = 0.0
+  const lngDiff = ((yCoord - avgYCoord) / (maxYCoord - minYCoord)) * scale + offsetY
+  return 1.3521 + lngDiff; 
+};
+
+const calculateLatitude = (xCoord) => {
+  const avgXCoord = 28743.502045299196
+  const maxXCoord = 45264.5806
+  const minXCoord = 11539.0898
+  const scale = 0.32
+  const offsetX = 0.01
+  const latDiff = ((xCoord - avgXCoord) / (maxXCoord - minXCoord)) * scale + offsetX
+  return 103.8198 + latDiff; 
+};
 
 export default App;
