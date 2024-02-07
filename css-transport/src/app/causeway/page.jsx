@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import './styles.css';
 
 export default function Causeway() {
     // CAMERA NUMBERS 4703, 4713, 2701, 2702
@@ -7,55 +8,56 @@ export default function Causeway() {
     const cameraIDs = ["4703", "4713", "2701", "2702"];
 
     const [lastUpdated, setLastUpdated] = useState(null);
+    const [cameraList, setCameraList] = useState([]);
     let causewayCameras = [];
 
     /**
      * @param {string} api 
      */
-    const updateData = (api) => {
-        causewayCameras = [];
+    const fetchData = async (api) => {
+        console.log("fetching data");
+        await fetch(api)
+            .then((r) => r.json())
+            .then((data) => {
+                let timestamp = new Date(data.items[0].timestamp);
+                setLastUpdated(`${timestamp}`);
 
-        fetch(api)
-        .then((r) => r.json())
-        .then((data) => {
-            const lastUpdated = new Date(data.items[0].timestamp);
-            setLastUpdated(`${lastUpdated}`);
+                // arr of objs
+                let cameraData = data.items[0].cameras;
+                setCameraList([]); // reset state to prevent appending on re-fetch
 
-            // arr of objs
-            let cameraData = data.items[0].cameras;
-
-            for (let i=0; i<cameraData.length; i++) {
-                if (cameraIDs.includes(cameraData[i].camera_id)) {
-                    causewayCameras.push(cameraData[i].image);
+                for (let i=0; i<cameraData.length; i++) {
+                    if (cameraIDs.includes(cameraData[i].camera_id)) {
+                        // causewayCameras.push(cameraData[i].image);
+                        setCameraList(causewayCameras => [...causewayCameras, cameraData[i].image]);
+                    }
                 }
-            }
-        })
-    }
-
-    updateData(api);        // initial API call
-    useEffect(() => {       // auto-refresh every minute
-        const refresh = setInterval(() => {
-            updateData(api);
-            console.log("Data refreshed");
-        }, 60000);
-        return () => clearInterval(refresh);
-    });
-
-    console.log(causewayCameras);
-    // let cam1 = causewayCameras[0];
-    // let cam2 = causewayCameras[1];
-    // let cam3 = causewayCameras[2];
-    // let cam4 = causewayCameras[3];
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        }
+    
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchData(api);
+        }, 20000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
-        <>
+        <>  
             <div id="header">
                 <h3>Feed last updated: </h3>
                 <p>{lastUpdated}</p>
             </div>
-            {/* <div id="images">
-                <img src={cam1} />
-            </div> */}
+            <div id="images">
+                {   
+                    cameraList.map((url, key) => {
+                        return(<img src={url} key={key} alt="causeway photo"/>);
+                    })
+                }
+            </div>
         </>
     );
 }
