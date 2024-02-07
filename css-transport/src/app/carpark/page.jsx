@@ -1,0 +1,60 @@
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import Papa from 'papaparse';
+
+const MapView = () => {
+  const [carParks, setCarParks] = useState([]);
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    // Fetch car park availability
+    const fetchCarParkData = async () => {
+      const response = await axios.get('https://api.data.gov.sg/v1/transport/carpark-availability');
+      const carParkData = response.data.items[0].carpark_data;
+      setCarParks(carParkData);
+    };
+
+    // Load car park locations from CSV
+    const fetchCarParkLocations = () => {
+      Papa.parse("./carpark.csv", {
+        download: true,
+        header: true,
+        complete: (result) => {
+          setLocations(result.data);
+        }
+      });
+    };
+
+    fetchCarParkData();
+    fetchCarParkLocations();
+  }, []);
+
+  return (
+    <MapContainer center={[1.3521, 103.8198]} zoom={12} style={{ height: '100vh', width: '100%' }}>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {locations.map((location, index) => {
+        const carPark = carParks.find(cp => cp.carpark_number === location.car_park_no);
+        if (!carPark) return null;
+
+        const availableLots = carPark.carpark_info[0].lots_available;
+        const totalLots = carPark.carpark_info[0].total_lots;
+
+        return (
+          <Marker key={index} position={[location.y_coord, location.x_coord]}>
+            <Popup>
+              {location.address}<br />
+              Available: {availableLots}/{totalLots}
+            </Popup>
+          </Marker>
+        );
+      })}
+    </MapContainer>
+  );
+};
+
+export default MapView;
