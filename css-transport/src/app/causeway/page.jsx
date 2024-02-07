@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import './styles.css';
 
 export default function Causeway() {
     // CAMERA NUMBERS 4703, 4713, 2701, 2702
@@ -13,8 +14,9 @@ export default function Causeway() {
     /**
      * @param {string} api 
      */
-    const fetchData = (api) => {
-        fetch(api)
+    const fetchData = async (api) => {
+        console.log("fetching data");
+        await fetch(api)
             .then((r) => r.json())
             .then((data) => {
                 let timestamp = new Date(data.items[0].timestamp);
@@ -35,6 +37,13 @@ export default function Causeway() {
                 console.log(err);
             })
         }
+    
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchData(api);
+        }, 20000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <>  
@@ -42,7 +51,6 @@ export default function Causeway() {
                 <h3>Feed last updated: </h3>
                 <p>{lastUpdated}</p>
             </div>
-
             <div id="images">
                 {   
                     cameraList.map((url, key) => {
