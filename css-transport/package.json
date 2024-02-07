@@ -14,7 +14,7 @@
         "papaparse": "^5.4.1",
         "react": "^18",
         "react-dom": "^18",
-        "react-leaflet": "^4.2.1"
+        "react-leaflet": "^4.2.1",
         "@fortawesome/fontawesome-svg-core": "^6.5.1",
         "@fortawesome/free-solid-svg-icons": "^6.5.1",
         "@fortawesome/react-fontawesome": "^0.2.0",
