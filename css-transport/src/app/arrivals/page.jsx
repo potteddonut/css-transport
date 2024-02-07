@@ -117,6 +117,15 @@ const BusArrivalDisplay = () => {
             console.error('Error fetching bus arrival data:', error);
         }
     };
+
+    // This refreshes the page automatically after one minute
+    useEffect(() => {
+        fetchBusArrivalData();
+        const interval = setInterval(fetchBusArrivalData, 60000);
+        
+        return () => clearInterval(interval);
+    }, []);
+
     // Handle search input change
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
