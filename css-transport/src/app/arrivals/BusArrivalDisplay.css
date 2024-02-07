@@ -1,60 +1,151 @@
 .container {
     padding: 20px;
     font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #1c1c1c; 
+    color: #f1f1f1;
+}
+
+.header {
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .busStopHeader {
-    background-color: #454545;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
-    margin: 0 0 20px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 35px; 
+    font-weight: normal;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.busStopCode {
+    font-size: 18px;
+    color: #cccccc;
 }
 
 .serviceContainer {
+    background-color: #2a2a2a;
+    border-radius: 20px;
+    font-size: 20px;
     margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
 .serviceHeader {
     font-weight: bold;
-    color: #333;
+    margin-bottom: 10px;
+    color: #f1f1f1;
 }
 
 .list {
     list-style-type: none;
+    margin: 0;
     padding-left: 0;
 }
 
 .listItem {
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
+    background: #333333;
+    color: #ffffff;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: relative;
 }
-.container {
 
+.busAttributes {
     display: flex;
-    flex-direction: column;
+    justify-content: flex-end;
+    gap: 8px; 
 }
 
-.content, .buttons {
-    flex: 1;
+.faWheelchair,
+.faBus,
+.faChair {
+    font-size: 2em;
+}
+
+.load-icon {
+    margin-right: 4px;
+}
+
+
+.load-seats-available {
+    color: #4CAF50;
+}
+
+.load-standing-available {
+    color: #ffeb3b;
+}
+
+.load-limited-standing {
+    color: #f44336;
+}
+
+.bus-icon-double .bus-icon-top {
+    position: absolute;
+    top: -14px;
+    left: 0;
+    z-index: 1; /* Make sure the top icon is above the bottom icon */
+}
+
+.bus-icon-double {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bus-icon-bendy .bus-icon-back {
+    position: relative;
+    margin-left: 1px;
+    z-index: 0;
 }
 
 .buttons {
-    display: flex;
-    justify-content: flex-end; /* Align buttons to the right */
-    margin-top: 10px; /* Add some space above the buttons */
+    text-align: center;
+    margin-top: 20px;
 }
 
-.refreshButton, .toggleFormatButton {
-    margin-left: 10px; /* Space between buttons */
-}
-
-.additionalInfo {
+.refreshButton {
+    background-color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    font-weight: bold;
     margin-left: 10px;
-    font-style: italic;
 }
+
+.refreshButton:hover {
+    background-color: #d0d0d0;
+    border-color: #bbb;
+}
+
+.searchBarContainer {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .searchInput {
+    padding: 8px;
+    margin-bottom: 0px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #f1f1f1;
+    font-size: 16px;
+  }
+  
+  .searchInput::placeholder {
+    color: #bbb;
+  }
+  
