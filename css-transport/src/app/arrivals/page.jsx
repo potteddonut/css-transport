@@ -1,3 +1,7 @@
+// Code implemented by Azfar
+// S10262424K
+// Things to take note, if page doesn't display information you will need to visit https://cors-anywhere.herokuapp.com/corsdemo
+// to request for demo access in order for it to display information. Apparently this is the only thing that I can think of to make it work.
 "use client";
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
