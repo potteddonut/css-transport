@@ -9,15 +9,13 @@ const TrafficLightsStatus = () => {
   const API_URL = 'http://datamall2.mytransport.sg/ltaodataservice/FaultyTrafficLights';
 
   useEffect(() => {
+    // src\app\api\route.jsx
+    // /api
     const fetchTrafficLights = async () => {
       try {
-        const response = await fetch(API_URL, {
-          headers: {
-            'AccountKey': 'RVCGPbcyRg6yXOyENrIqow=='
-          }
-        });
+        const response = await fetch("/api/faultytraffic");
         const data = await response.json();
-        setTrafficLights(data.value); // Replace 'value' with the correct key if the API response has a different structure
+        setTrafficLights(data.value);
       } catch (error) {
         console.error('Failed to fetch traffic lights data:', error);
       }
