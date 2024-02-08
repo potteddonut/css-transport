@@ -17,7 +17,7 @@ const TrafficLightsStatus = () => {
           }
         });
         const data = await response.json();
-        setTrafficLights(data.value); // Replace 'value' with the correct key if the API response has a different structure
+        setTrafficLights(data.value);
       } catch (error) {
         console.error('Failed to fetch traffic lights data:', error);
       }
